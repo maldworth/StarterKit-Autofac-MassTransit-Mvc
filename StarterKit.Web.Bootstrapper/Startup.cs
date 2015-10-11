@@ -8,11 +8,19 @@
     using Microsoft.Owin;
     using Owin;
     using System;
+    using log4net.Config;
+    using MassTransit.Log4NetIntegration.Logging;
 
     public class Startup
     {
         public void Configuration(IAppBuilder app)
         {
+            // Loads the config from our App.config
+            XmlConfigurator.Configure();
+
+            // MassTransit to use Log4Net
+            Log4NetLogger.Use();
+
             var container = IocConfig.RegisterDependencies();
 
             // Sets the Mvc resolver

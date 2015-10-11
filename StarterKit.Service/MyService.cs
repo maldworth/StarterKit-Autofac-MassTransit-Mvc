@@ -2,27 +2,23 @@
 {
     using Autofac;
     using MassTransit;
+    using Topshelf;
     using Topshelf.Logging;
 
-    public class MyService
+    public class MyService : ServiceControl
     {
         readonly LogWriter _log = HostLogger.Get<MyService>();
-        private readonly IComponentContext _componentContext;
 
         IBusControl _busControl;
         BusHandle _busHandle;
 
-        public MyService(IComponentContext componentContext)
+        public MyService(IBusControl busControl)
         {
-            _componentContext = componentContext;
+            _busControl = busControl;
         }
 
-        public bool Start()
+        public bool Start(HostControl hostControl)
         {
-            _log.Info("Creating bus...");
-
-            _busControl = _componentContext.Resolve<IBusControl>();
-
             _log.Info("Starting bus...");
 
             _busHandle = _busControl.Start();
@@ -30,7 +26,7 @@
             return true;
         }
 
-        public bool Stop()
+        public bool Stop(HostControl hostControl)
         {
             _log.Info("Stopping bus...");
 

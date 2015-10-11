@@ -4,6 +4,7 @@
     using System.Configuration;
     using Autofac;
     using MassTransit;
+    using MassTransit.Log4NetIntegration;
 
     public class BusModule : Module
     {
@@ -38,6 +39,7 @@
                     e.LoadFrom(componentContext.Resolve<ILifetimeScope>());
                 });
             }))
+                .SingleInstance()
                 .As<IBusControl>()
                 .As<IBus>();
         }
