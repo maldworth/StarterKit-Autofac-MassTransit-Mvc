@@ -28,11 +28,11 @@
                 var host = sbc.Host(new Uri(ConfigurationManager.AppSettings["RabbitMQHost"]), h =>
                 {
                     // Configure your host
-                    h.Username("starterkit");
-                    h.Password("banana");
+                    h.Username(ConfigurationManager.AppSettings["RabbitMQUsername"]);
+                    h.Password(ConfigurationManager.AppSettings["RabbitMQPassword"]);
                 });
 
-                sbc.ReceiveEndpoint(host, "my_messages", e =>
+                sbc.ReceiveEndpoint(host, ConfigurationManager.AppSettings["MyMessageQueueName"], e =>
                 {
                     // Configure your consumer(s)
                     e.PrefetchCount = 4;
