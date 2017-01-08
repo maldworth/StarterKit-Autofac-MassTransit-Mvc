@@ -2,6 +2,7 @@
 {
     using Autofac;
     using MassTransit;
+    using MassTransit.Util;
     using Topshelf;
     using Topshelf.Logging;
 
@@ -21,7 +22,7 @@
         {
             _log.Info("Starting bus...");
 
-            _busHandle = _busControl.Start();
+            _busHandle = TaskUtil.Await(() => _busControl.StartAsync());
 
             return true;
         }

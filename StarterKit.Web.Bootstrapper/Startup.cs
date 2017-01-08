@@ -5,6 +5,7 @@
     using Autofac;
     using Autofac.Integration.Mvc;
     using MassTransit;
+    using MassTransit.Util;
     using Microsoft.Owin;
     using Owin;
     using System;
@@ -32,7 +33,7 @@
 
             // Starts Mass Transit Service bus, and registers stopping of bus on app dispose
             var bus = container.Resolve<IBusControl>();
-            var busHandle = bus.Start();
+            var busHandle = TaskUtil.Await(() => bus.StartAsync());
 
             if (app.Properties.ContainsKey("host.OnAppDisposing"))
             {
